@@ -304,17 +304,20 @@
 
         <!-- SUBIR FOTO 360° -->
         <div style="padding:0 24px 20px;">
+          <!-- Botón para ver 360° (solo visible si ya hay imagen 360) -->
           <div id="btn-360-container" style="display:none;">
             <button class="btn-360" onclick="abrirVisor360()">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
               Ver en 360°
             </button>
           </div>
+
+          <!-- Área para subir imagen 360° -->
           <div class="upload-360-area" id="upload-360-area" onclick="document.getElementById('input-360').click()">
             <input type="file" id="input-360" accept="image/*" onchange="cargar360(event)">
             <div style="font-size:2rem;margin-bottom:8px;">🔄</div>
-            <div style="font-size:13px;font-weight:700;color:var(--verde);margin-bottom:4px;">Subir foto 360°</div>
-            <div style="font-size:12px;color:var(--gris-medio);margin-bottom:8px;">Haz clic para seleccionar una imagen</div>
+            <div style="font-size:13px;font-weight:700;color:var(--verde);margin-bottom:4px;">Subir Imagen 360°</div>
+            <div style="font-size:12px;color:var(--gris-medio);margin-bottom:8px;">Click para seleccionar (requiere autenticación)</div>
             <div class="upload-360-info">
               <strong>✅ Acepta cualquier imagen:</strong>
               • Fotos 360° equirectangulares (ideal: ratio 2:1)<br>
@@ -323,17 +326,34 @@
             </div>
           </div>
 
-          <!-- AGREGAR IMÁGENES A LA GALERÍA -->
+          <!-- SEPARADOR VISUAL -->
+          <div style="margin: 24px 0; border-top: 2px dashed var(--dorado); opacity: 0.3;"></div>
+
+          <!-- AGREGAR IMÁGENES NORMALES A LA GALERÍA -->
+          <div style="text-align: center; margin-bottom: 12px;">
+            <div style="font-size: 11px; color: var(--gris-medio); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+              📷 Galería de Imágenes Normales
+            </div>
+          </div>
+          
           <button class="btn-add-imgs" onclick="mostrarFormularioImagenes()">
-            📸 Agregar Imágenes
+            📸 Agregar Imágenes a la Galería
           </button>
           
           <div class="upload-imgs-area" id="upload-imgs-area">
-            <h4>📷 Subir Nuevas Fotos</h4>
+            <h4>📷 Subir Nuevas Fotos a la Galería</h4>
+            <p style="font-size: 12px; color: var(--gris-medio); margin-bottom: 12px;">
+              Selecciona una o varias imágenes normales para agregar a la galería principal
+            </p>
             <input type="file" id="imgs-input" accept="image/*" multiple>
+            <div id="preview-imgs" style="display: none; margin-top: 12px; padding: 12px; background: var(--gris-claro); border-radius: 8px;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--verde); margin-bottom: 8px;">
+                <span id="count-imgs">0</span> imagen(es) seleccionada(s)
+              </div>
+            </div>
             <div class="upload-imgs-btns">
               <button class="btn-subir-imgs" id="btn-subir-imgs" onclick="subirImagenes()">📤 Subir Imágenes</button>
-              <button class="btn-cancelar-imgs" onclick="ocultarFormularioImagenes()">✕</button>
+              <button class="btn-cancelar-imgs" onclick="ocultarFormularioImagenes()">✕ Cancelar</button>
             </div>
           </div>
         </div>
@@ -524,7 +544,7 @@
     }
 
     // Si no, pedir contraseña
-    const clave = prompt('Ingresa la contraseña para agregar imágenes:');
+    const clave = prompt('🔐 Ingresa la contraseña de administrador para agregar imágenes:');
     if (clave !== ADMIN_PASS) {
       if (clave !== null) mostrarNotif('❌ Contraseña incorrecta', '#c0392b');
       return;
@@ -541,6 +561,23 @@
   function ocultarFormularioImagenes() {
     document.getElementById('upload-imgs-area').style.display = 'none';
     document.getElementById('imgs-input').value = '';
+    document.getElementById('preview-imgs').style.display = 'none';
+  }
+
+  // Agregar event listener para mostrar preview cuando se seleccionen archivos
+  if (document.getElementById('imgs-input')) {
+    document.getElementById('imgs-input').addEventListener('change', function(e) {
+      const files = e.target.files;
+      const preview = document.getElementById('preview-imgs');
+      const count = document.getElementById('count-imgs');
+      
+      if (files.length > 0) {
+        count.textContent = files.length;
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
+    });
   }
 
   async function subirACloudinary(file) {
@@ -682,16 +719,18 @@
 
     // Verificar si es admin
     if (!esAdmin) {
-      const clave = prompt('Ingresa la contraseña para subir foto 360°:');
+      const clave = prompt('🔐 Ingresa la contraseña de administrador para subir imagen 360°:');
       if (clave !== ADMIN_PASS) {
         if (clave !== null) mostrarNotif('❌ Contraseña incorrecta', '#c0392b');
+        event.target.value = ''; // Limpiar input
         return;
       }
       esAdmin = true;
       sessionStorage.setItem('admin_session', 'true');
+      mostrarNotif('✅ Autenticado correctamente');
     }
 
-    mostrarNotif('⏳ Procesando imagen 360°...');
+    mostrarNotif('⏳ Analizando y subiendo imagen 360°...');
 
     try {
       // Verificar dimensiones de la imagen
