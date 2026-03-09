@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Guía de Deploy - SJ Gestión Inmobiliaria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            color: #718096;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .step {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+        }
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .step h2 {
+            display: inline-block;
+            color: #2d3748;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+        .step p {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-top: 12px;
+        }
+        .step ul {
+            margin-top: 12px;
+            margin-left: 44px;
+            color: #4a5568;
+        }
+        .step li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .code {
+            background: #2d3748;
+            color: #68d391;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+        .url {
+            background: #edf2f7;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: #667eea;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 16px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+        .checklist {
+            background: #f0fff4;
+            border: 2px solid #68d391;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        .checklist h3 {
+            color: #22543d;
+            margin-bottom: 12px;
+        }
+        .checklist li {
+            color: #276749;
+            margin-bottom: 8px;
+            list-style: none;
+        }
+        .checklist li:before {
+            content: "✅ ";
+            margin-right: 8px;
+        }
+        .warning {
+            background: #fffaf0;
+            border-left: 4px solid #ed8936;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .warning-title {
+            color: #c05621;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .success {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+            text-align: center;
+        }
+        .success h2 {
+            color: #22543d;
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 2px solid #e2e8f0;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Deploy en Vercel</h1>
+        <p class="subtitle">Guía paso a paso para publicar SJ Gestión Inmobiliaria</p>
+
+        <div class="step">
+            <span class="step-number">1</span>
+            <h2>Crear Cuenta en Vercel</h2>
+            <p>Primero necesitas una cuenta gratuita en Vercel:</p>
+            <a href="https://vercel.com/signup" target="_blank" class="btn">🔗 Ir a Vercel.com</a>
+            <ul>
+                <li>Click en "Sign Up" (registrarse)</li>
+                <li>Elige: GitHub, GitLab o Email</li>
+                <li>Es 100% gratis, no pide tarjeta de crédito</li>
+                <li>Completa el registro en 2 minutos</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <h2>Preparar tus Archivos</h2>
+            <p>Descarga todos los archivos que te compartí arriba. Debes tener:</p>
+            <div class="checklist">
+                <h3>📁 Archivos Necesarios:</h3>
+                <ul>
+                    <li>index.html (página principal)</li>
+                    <li>propiedad.html (página de detalles)</li>
+                    <li>vercel.json (configuración)</li>
+                    <li>README.md (documentación)</li>
+                    <li>.gitignore (archivos a ignorar)</li>
+                </ul>
+            </div>
+            <p>Guárdalos todos en una misma carpeta llamada: <code>sj-gestion-inmobiliaria</code></p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <h2>Subir a Vercel</h2>
+            <p>Una vez dentro de tu cuenta de Vercel:</p>
+            <ul>
+                <li>Click en el botón "Add New..." (arriba a la derecha)</li>
+                <li>Selecciona "Project"</li>
+                <li>Busca el botón "Upload" en la esquina superior derecha</li>
+                <li>Arrastra tu carpeta <code>sj-gestion-inmobiliaria</code></li>
+                <li>O click en "Select Directory" y elige la carpeta</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <h2>Configurar el Proyecto</h2>
+            <p>Vercel te pedirá algunos datos:</p>
+            <div class="code">
+Project Name: sj-gestion-inmobiliaria
+Framework Preset: Other
+Root Directory: ./ (dejar como está)
+            </div>
+            <p>No cambies nada más. Simplemente click en el botón azul <strong>"Deploy"</strong></p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <h2>¡Esperar 30 Segundos! ⏱️</h2>
+            <p>Vercel construirá y publicará tu sitio automáticamente.</p>
+            <p>Verás una barra de progreso y cuando termine aparecerá confeti 🎉</p>
+            <div class="warning">
+                <div class="warning-title">⏰ No cierres la ventana</div>
+                El proceso toma entre 20-60 segundos. Mantén la pestaña abierta.
+            </div>
+        </div>
+
+        <div class="success">
+            <h2>🎉 ¡Tu sitio está vivo!</h2>
+            <p style="margin-top: 12px; color: #2d3748;">Tu URL será algo como:</p>
+            <div class="url">
+                https://sj-gestion-inmobiliaria.vercel.app
+            </div>
+            <p style="margin-top: 12px; color: #4a5568;">
+                Click en "Visit" para ver tu sitio en vivo
+            </p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">6</span>
+            <h2>Probar Funcionalidades</h2>
+            <p>Una vez publicado, verifica que todo funcione:</p>
+            <div class="checklist">
+                <h3>✅ Checklist de Pruebas:</h3>
+                <ul>
+                    <li>La página principal carga correctamente</li>
+                    <li>Puedes hacer click en las propiedades</li>
+                    <li>El login de admin funciona (usuario: admin, clave: Chincha19+)</li>
+                    <li>Puedes agregar una propiedad nueva</li>
+                    <li>Puedes subir imágenes</li>
+                    <li>Los botones de WhatsApp funcionan</li>
+                    <li>El visor 360° se abre (si subes una foto)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">7</span>
+            <h2>Actualizar en el Futuro</h2>
+            <p>Para hacer cambios después:</p>
+            <ul>
+                <li><strong>Opción A:</strong> En Vercel → Deployments → Upload (sube archivos actualizados)</li>
+                <li><strong>Opción B:</strong> Conecta con GitHub para actualizaciones automáticas</li>
+                <li><strong>Opción C:</strong> Usa Vercel CLI desde la terminal</li>
+            </ul>
+            <p style="margin-top: 16px;">
+                La opción más fácil es la <strong>Opción A</strong>: cada vez que quieras cambiar algo, 
+                sube la nueva versión de los archivos.
+            </p>
+        </div>
+
+        <div class="warning">
+            <div class="warning-title">💡 Tips Importantes:</div>
+            <ul style="margin-left: 20px; margin-top: 12px;">
+                <li>Guarda tu URL de Vercel para compartirla con clientes</li>
+                <li>La cuenta gratuita tiene ancho de banda ilimitado</li>
+                <li>Puedes agregar un dominio personalizado después (ej: sjgestion.com)</li>
+                <li>Todos los cambios se publican en 30 segundos</li>
+                <li>Vercel incluye HTTPS gratis automáticamente 🔒</li>
+            </ul>
+        </div>
+
+        <div class="success">
+            <h2>🎓 Recursos Adicionales</h2>
+            <p style="margin-top: 12px; color: #2d3748;">
+                Si tienes dudas, revisa estos links:
+            </p>
+            <div style="margin-top: 20px;">
+                <a href="https://vercel.com/docs" target="_blank" class="btn">📚 Documentación Vercel</a>
+                <a href="https://vercel.com/support" target="_blank" class="btn" style="margin-left: 12px;">💬 Soporte</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>SJ Gestión Inmobiliaria</strong></p>
+            <p>Propiedades en Todo el Perú 🇵🇪</p>
+            <p style="margin-top: 12px; font-size: 0.9rem;">
+                Si necesitas ayuda durante el proceso, revisa el archivo README.md
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Agregar efecto de scroll suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Mensaje de bienvenida en consola
+        console.log('%c🚀 SJ Gestión Inmobiliaria', 'color: #667eea; font-size: 24px; font-weight: bold;');
+        console.log('%c¡Lista para despegar en Vercel!', 'color: #48bb78; font-size: 16px;');
+    </script>
+</body>
+</html>
